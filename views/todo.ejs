@@ -1,0 +1,178 @@
+<html>
+  <head>
+    
+    <script src="https://kit.fontawesome.com/155b8cdebe.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/public/style.css">
+    <style>
+    body{
+      justify-content: center;
+      margin-left: 30%;
+      margin-right: 30%;
+    }
+    input[type=text] {
+        width: 100%;
+        padding: 12px 10px;
+        margin: 8px 0;
+        border: none;
+        border-bottom: 2px solid black;
+        display: block;
+    }
+    input[type=date] {
+        width: 100%;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        background-color: #f1f1f1;
+        display: inline-block;
+
+    }
+    input[type=checkbox]:checked + label.box{
+      text-decoration:line-through;
+    }
+    .box1{
+      text-decoration:line-through;
+    }
+    .parent{
+      display: flex;
+    }
+    .child{
+      margin-left: 20px;
+      margin-right: 20px;
+    }      
+    .button1 {
+      background-color:#121010; 
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      margin-left: 50px;
+      margin-right: 50px;      
+    }
+    .button2 {
+      background-color:#e80b3b; 
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      margin-left: 50px;
+      margin-right: 50px;
+    }
+    select {
+      width: 100%;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 4px;
+      background-color: #f1f1f1;
+    }   
+    td{
+      font-size: 18;
+    }
+    h1{
+      text-align: center;
+        color: red;
+    }
+    .front{
+      text-align: center;
+    }
+    .status{
+      background-color: yellowgreen;
+      padding-left: 0.5rem;
+    } 
+    table{
+      border-collapse: collapse;
+    }
+    tr{
+      border-bottom: 1pt solid #121010;
+    }
+    i{
+      margin-right: 10px;
+    }
+    </style>
+  </head>
+  <body>
+    <script>
+      function struck(checkbox){
+        var row = checkbox.parentNode.parentNode;
+        var t3 = row.getElementsByTagName("td")[0];      
+        var t1 = row.getElementsByTagName("td")[1];
+        if (checkbox.checked) {
+          t3.style.textDecoration = "line-through";         
+          t1.style.textDecoration = "line-through";
+        console.log("TASK FINISHED SUCCESFULLY");
+        } else {
+          t3.style.textDecoration = "none";        
+          t1.style.textDecoration = "none";
+        }
+      }
+      </script>
+     
+    <h1 align:center>TODO App</h1>
+    <div class="form-wrapper">
+      <form   action="add-item" method="post" id="form1">
+        <label for="description" style="font-size: 20;">DESCRIPTION</label>
+        <br />
+        <input
+          type="text"
+          name="description"
+          id="description"
+          placeholder="What do you need to do?"          
+        >
+        </input>
+            <br>
+            <div class="parent">
+              <div class="child">
+                <label for="category" style="font-size: 20;">CATEGORY</label>
+                <select name="category" id="category" placeholder="Choose a category">
+                  <option selected disabled>Choose a category</option>
+                  <option value="Personal">Personal</option>
+                  <option value="Work">Work</option>
+                  <option value="School">School</option>
+                  <option value="Cleaning">Cleaning</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>              
+              <br>
+              <div class="child">
+                <label for="date" style="font-size: 20;">DUE DATE</label>
+                <input type="date" name="date" id ="date" />
+              </div>
+            </div>
+            <br>
+            <button type="submit" class="button1" style="margin-left: 35%;border-radius: 0.5rem;">
+              <i class="fa-solid fa-plus"></i>ADD TASK</button>
+  
+      </form>
+      <form action="/delete-item" method="get" id="form2" >
+          <button type="submit" class="button2"  style="margin-left: 35%; border-radius: 0.5rem;">
+            <i class="fa-solid fa-trash"></i>DELETE TASKS</button>
+          <br />
+          <br>
+          <br>
+
+        <table class="parenttable" >
+          <thead style="font-size: 20px;padding: auto;">
+            <tr>
+              <th style="padding-right: 26rem;">Task Name</th>
+              <th>Category</th>
+            </tr>
+          </thead>
+          <% for(let i of task) { %>
+            <tr >
+              <td ><input type="checkbox" name="<%= i._id %>" value="box" class="box" onchange="struck(this)"> 
+               <%=i.description%> 
+                <br>
+                <i class="fa-solid fa-calendar-days" ></i><%= i.date %>
+              </td>
+              <td class="status" style="width: fit-content;"><%= i.category %></td> 
+            </tr>
+           <% } %>
+        </table>
+      </form>
+   
+    </div>          
+   </body>
+</html>
